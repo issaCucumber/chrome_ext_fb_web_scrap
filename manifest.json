@@ -1,0 +1,30 @@
+{
+  "name": "Facebook Web Scraping",
+  "description": "Facebook Web Scraping",
+  "version": "1.0",
+  "permissions": [
+    "tabs", "https://www.facebook.com/*", "http://www.facebook.com/*"
+  ],
+  "browser_action": {
+      "default_title": "Facebook Web Scraping",
+      "default_icon": "icon.png",
+      "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.facebook.com/*",
+        "http://www.facebook.com/*"
+      ],
+      "all_frames": true,
+      "js": [
+      	"assets/lib/jquery-2.2.1.min.js",
+      	"assets/lib/moment.min.js",
+      	"assets/js/XMLEncoder.js",
+      	"assets/js/common.js",
+      	"assets/js/ProcessThread.js"
+      ]
+    }
+  ],
+  "manifest_version": 2
+}
