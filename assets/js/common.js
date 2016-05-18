@@ -85,10 +85,13 @@ function parseDiff(seconds){
 	return timeDiff;
 }
 
-function analysePost(postDOMElement, post_id){
+function analysePost(postDOMElement, post_obj, post_id){
 	
+	var json=[];
 	var $post    = $(postDOMElement);
-	post_obj["id"]				= post_count;
+	var post_count = 0;
+	
+	post_obj["id"]				= post_id;
 	post_obj["replyto"]			= "null"	; //parent post
 	post_obj["content"] 		= stripToText($($post.find(".userContent")[0]).html());
 	post_obj["count"] 			= $($post.find(".UFILikeSentence span[data-hover=tooltip]")[0]).text();
@@ -110,7 +113,7 @@ function analysePost(postDOMElement, post_id){
 			
 			post_count++;
 			var p_obj = {};
-			p_obj["id"]				= post_count;
+			p_obj["id"]				= post_id + "_" + post_count;
 			p_obj["replyto"]		= current_comment["id"]	; //parent post
 			p_obj["author"] 		= $($child_obj.find("a.UFICommentActorName")[0]).text();
 			p_obj["content"] 		= stripToText($($child_obj.find("span.UFICommentBody")[0]).html());
@@ -129,7 +132,7 @@ function analysePost(postDOMElement, post_id){
 			current_comment = {};
 			post_count++;
 			
-			current_comment["id"]			= post_count;
+			current_comment["id"]			= post_id + "_" + post_count;
 			current_comment["replyto"]		= post_obj["id"]	; //parent post
 			current_comment["author"] 		= $($child_obj.find("a.UFICommentActorName")[0]).text();
 			current_comment["content"] 		= stripToText($($child_obj.find("span.UFICommentBody")[0]).html());
@@ -153,6 +156,7 @@ function analysePost(postDOMElement, post_id){
 //	var win = window.open(uri, postId+'.xml');
 	
 	download(post_id+'.xml', uri);
+	console.log("Next...");
 	extractData(iterator++);
 }
 
@@ -162,9 +166,9 @@ function download(filename, text) {
     pom.setAttribute('download', filename);
 
     if (document.createEvent) {
-        var event = document.createEvent('MouseEvents');
-        event.initEvent('click', true, true);
-        pom.dispatchEvent(event);
+    	var evt = document.createEvent("Event");
+		evt.initEvent('click', true, true);
+        pom.dispatchEvent(evt);
     }
     else {
         pom.click();
@@ -172,13 +176,13 @@ function download(filename, text) {
 }
 
 function getCommentCount(postDOMEle){
-	var last_comment_component = $(postDOMEle).find(".UFILastCommentComponent span.UFIPagerCount");
+	var last_comment_component = $(postDOMEle).find("span.UFIPagerCount");
 	
 	if(last_comment_component.length == 0){
 		return false;
 	}
 	
-	var comment_component 	   = $(last_comment_component[0]).text().split(" ");
+	var comment_component = $(last_comment_component[0]).text().split(" ");
 	
 	return parseInt(comment_component[0].replace(",", ""));
 }

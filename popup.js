@@ -9,9 +9,14 @@ function scrap(e) {
 }
 
 function count(e) {
-	  chrome.tabs.executeScript(null,{ file: "count.js" });
-	  window.close();
-	}
+  chrome.tabs.executeScript(null,{ file: "count.js" });
+  window.close();
+}
+
+function scrap_wall(e) {
+  chrome.tabs.executeScript(null,{ file: "scrap_wall.js" });
+  window.close();
+}
 
 document.addEventListener('DOMContentLoaded', function () {
   var divs = document.querySelectorAll('div');
@@ -20,6 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
 		 divs[i].addEventListener('click', scrap);
 	 }else if(divs[i].id == "count"){
 		 divs[i].addEventListener('click', count);
+	 }else if(divs[i].id == "extract_wall"){
+		 divs[i].addEventListener('click', scrap_wall);
 	 }
     
   }

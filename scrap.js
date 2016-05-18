@@ -10,7 +10,7 @@ var SECONDS_ONE_HOUR	= 60 * SECONDS_ONE_MINUTE;
 var SECONDS_ONE_DAY = 24 * SECONDS_ONE_HOUR;
 var TIMEOUT = 1000;
 
-var iterator = 4;
+var iterator = 2;
 var discussion_threads = $("body").find(".mbm");
 var skip = ["1114235818639123"];
 
@@ -139,6 +139,7 @@ function extractData(i){
 	
 	var post = thread_obj.find(".userContentWrapper")[0];
 	
+	
 	var thread = new ProcessThread(post, post_id);
 	
 	if(thread){
@@ -148,5 +149,4 @@ function extractData(i){
 	}
 	
 }
-
 extractData(iterator);
